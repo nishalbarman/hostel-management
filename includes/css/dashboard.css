@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen,
+    ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial,
+    sans-serif;
+  font-size: 16px;
+}
+
+.card,
+.card2 {
+  position: relative;
+  /* background-color: #2885f7; */
+  background-color: #4b4e50;
+  height: 200px;
+  width: 200px;
+  margin-top: 25px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.card2 {
+  background-color: #5cb900;
+  background-color: #c8bb1a;
+}
+
+.backgr {
+  position: absolute;
+  height: 100%;
+  top: 70%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.backgr label {
+  text-align: center;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.bottom {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  width: 100%;
+  background-color: white;
+  bottom: 0;
+  border-bottom: 1px solid grey;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  cursor: pointer;
+}
+
+.bottom a {
+  position: absolute;
+  top: 45%;
+  transform: translate(0, -50%);
+  font-size: 15px;
+  color: #313131;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.cards- {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  position: relative;
+  gap: 10px;
+}

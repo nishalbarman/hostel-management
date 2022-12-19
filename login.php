@@ -5,7 +5,7 @@ $err = '';
 session_start();
 
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location:home.php");
+    header("location: ./dashboard.php");
     exit;
 }
 
@@ -39,14 +39,16 @@ if (isset($_POST['login'])) {
                 if ($res->num_rows > 0) {
                     while ($row = $res->fetch_assoc()) {
                         $_SESSION['firstname'] = $row['firstname'];
+                        $_SESSION['lastname'] = $row['lastname'];
                         $_SESSION['email'] = $row['email'];
                         $_SESSION['phone'] = $row['phone'];
                         $_SESSION['roll'] = $row['roll'];
+                        $_SESSION['booked'] = $row['booked'];
                     }
                 }
 
                 echo "<script>alert('You have Logged');
-                    window.location='./dashboard.php'</script>";
+                window.location='./dashboard.php';</script>";
                 exit;
 
             } else {

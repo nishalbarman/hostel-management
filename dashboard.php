@@ -48,7 +48,7 @@ include './includes/db/config.php';
                     <label>My Room</label>
                 </div>
                 <div class="bottom">
-                    <a href="./bookroom.php">Full Detail &DDotrahd;</a>
+                    <a href="./roomdetails.php">Full Detail &DDotrahd;</a>
                 </div>
             </div>
         </div>

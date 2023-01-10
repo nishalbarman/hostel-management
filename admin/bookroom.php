@@ -2,44 +2,13 @@
 
 session_start();
 
-if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'student')) {
+if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'admin')) {
     header("location: ./login.php");
     exit;
 }
-include './includes/db/config.php';
+include '../includes/db/config.php';
 
 $firstname = $_SESSION['firstname'];
-$lastname = $_SESSION['lastname'];
-$phone = $_SESSION['phone'];
-$email = $_SESSION['email'];
-$roll = $_SESSION['roll'];
-$booked = $_SESSION['booked'];
-
-if (isset($_SESSION['end_date'])) {
-    if ($_SESSION['end_date'] == date('Y-m-d', time())) {
-        echo $_SESSION['end_date'];
-        echo date('Y-m-d', time());
-
-        $sql1 = "UPDATE `students` SET `booked`='0' where `roll`='$roll'";
-        $sql2 = "UPDATE `bookings` SET `status` = 'Expired', `active`= 0 where `roll`='$roll'";
-
-        $conn->query($sql1);
-        $conn->query($sql2);
-
-        $booked == 0;
-
-    }
-}
-
-
-if (isset($booked)) {
-    if ($booked == 1) {
-        echo "<script>alert('Room Already Booked.');
-        window.location = './roomdetails.php';</script>";
-        exit;
-    }
-}
-
 
 $sql = "SELECT * FROM rooms";
 $res = $conn->query($sql);
@@ -47,7 +16,9 @@ $rooms = $res->fetch_all(MYSQLI_ASSOC);
 
 if (isset($_POST['rsubmit'])) {
     $roomno = $_POST['roomno'];
-    // $foodoption = $_POST['food_op'];
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
     $date = $_POST['date'];
     $duration = $_POST['duration'];
     $gname = $_POST['gname'];
@@ -57,6 +28,8 @@ if (isset($_POST['rsubmit'])) {
     $city = $_POST['city'];
     $state = $_POST['state'];
     $pincode = $_POST['pincode'];
+    $phone = $_POST['phone'];
+    $roll = $_POST['roll'];
     $end_date = date('Y-m-d', strtotime($date . ' + 3 months'));
 
     $sql = "select * from rooms";
@@ -95,7 +68,7 @@ if (isset($_POST['rsubmit'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Room | Hostel Management</title>
-    <link rel="stylesheet" href="./includes/css/bookroom.css" />
+    <link rel="stylesheet" href="../includes/css/bookroom.css" />
 </head>
 
 <body>
@@ -139,6 +112,11 @@ if (isset($_POST['rsubmit'])) {
                     </li> -->
 
                     <li>
+                        <label>Roll No <span class="required">*</span></label>
+                        <input type="number" name="roll" class="field-long" required />
+                    </li>
+
+                    <li>
                         <label>Date <span class="required">*</span></label>
                         <input type="date" name="date" class="field-long" required />
                     </li>
@@ -162,13 +140,12 @@ if (isset($_POST['rsubmit'])) {
 
                     <h2>Personal Info</h2>
                     <li><label>Full Name <span class=" required">*</span></label><input type="text" name="field1"
-                            class="field-divided" placeholder="First" value="<?php echo $firstname; ?>" disabled />
-                        <input type="text" name="field2" class="field-divided" placeholder="Last"
-                            value="<?php echo $lastname; ?>" disabled />
+                            class="field-divided" placeholder="First" value="" />
+                        <input type="text" name="field2" class="field-divided" placeholder="Last" value="" />
                     </li>
                     <li>
                         <label>Email <span class="required">*</span></label>
-                        <input type="email" name="email" class="field-long" value="<?php echo $email; ?>" disabled />
+                        <input type="email" name="email" class="field-long" value="" />
                     </li>
 
                     <li>
@@ -223,7 +200,7 @@ if (isset($_POST['rsubmit'])) {
     selection.addEventListener('change', () => {
         let roomno = selection.value;
         console.log(roomno);
-        fetch("check.php?room=" + roomno).then(res => res.json()).then(data => {
+        fetch("../check.php?room=" + roomno).then(res => res.json()).then(data => {
             console.log(data);
             noseat.innerHTML = "Available seats " + data.data;
             noseat.style.display = "block";

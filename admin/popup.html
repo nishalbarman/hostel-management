@@ -1,0 +1,95 @@
+<style>
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        opacity: 0;
+        z-index: -1;
+        transition: all 0.3s ease-out;
+    }
+
+    .popup-content {
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        width: 80%;
+        /* max-width: 500px; */
+        height: 80%;
+        padding: 30px;
+    }
+
+    .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .popup-header h2 {
+        margin: 0;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    .close-button {
+        font-size: 1.5em;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .popup-body {
+        line-height: 1.5;
+        height: 90%;
+    }
+
+    .popup.show {
+        visibility: visible;
+        opacity: 1;
+        z-index: 100;
+    }
+</style>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h2>Preview Details</h2>
+            <span class="close-button" id="close-button">&times;</span>
+        </div>
+        <div class="popup-body" id="popup-body">
+            <!-- <p>Pop-up content goes here.</p> -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get the popup element
+    const popup = document.getElementById('popup');
+
+    // Get the close button element
+    const closeButton = document.getElementById('close-button');
+
+    // Show the popup when the page loads
+    // window.addEventListener('load', function () {
+    //     popup.classList.add('show');
+    // });
+
+    // Hide the popup when the close button is clicked
+    closeButton.addEventListener('click', function () {
+        popup.classList.remove('show');
+    });
+
+    // Hide the popup when the user clicks outside the popup content
+    window.addEventListener('click', function (event) {
+        if (event.target == popup) {
+            popup.classList.remove('show');
+        }
+    });
+
+</script>

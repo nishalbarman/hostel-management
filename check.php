@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'student')) {
+if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)) {
     $data = array("data" => "Auth Failed");
     print_r(json_encode($data));
     exit;

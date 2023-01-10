@@ -61,7 +61,7 @@ if ($booked == 1) {
             </thead>
             <tbody>
                 <?php foreach ($details as $room):
-                ?>
+                    ?>
                 <tr>
                     <td style="text-align:center;width: 25%;">
                         <?php echo $room['roomno']; ?>
@@ -76,7 +76,11 @@ if ($booked == 1) {
                         <?php echo $room['starting_date']; ?>
                     </td>
                     <td style="text-align:center;">
+                        <?php if ($room['active'] == 1) { ?>
                         <a href='./roomde.php?roll=<?php echo $roll; ?>'>Show</a>
+                        <?php } else if ($room['active'] == 0) { ?>
+                        <a href='#' style="color: grey; text-decoration: 2px line-through">Show</a>
+                        <?php } ?>
                     </td>
 
 

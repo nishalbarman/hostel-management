@@ -5,18 +5,20 @@ $err = '';
 session_start();
 
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: ./dashboard.php");
-    exit;
+    if ($_SESSION['role'] === 1) {
+        header("location: ./dashboard.php");
+        exit;
+    }
 }
 
-include 'includes/db/config.php';
+include '../includes/db/config.php';
 
 if (isset($_POST['login'])) {
 
-    $roll = $_POST['roll'];
+    $email = $_POST['email'];
     $pass = $_POST['password'];
 
-    $sql = "SELECT * FROM `students` where roll = '$roll'";
+    $sql = "SELECT * FROM `admin` where email = '$email'";
     $res = $conn->query($sql);
     if ($res->num_rows > 0) {
         while ($row = $res->fetch_assoc()) {
@@ -31,10 +33,9 @@ if (isset($_POST['login'])) {
                 session_start();
 
                 $_SESSION["loggedin"] = true;
-                $_SESSION['role'] = 'student';
-                $_SESSION['roll'] = $roll;
+                $_SESSION['role'] = 'admin';
 
-                $sql = "SELECT * FROM `students` where roll = '$roll'";
+                $sql = "SELECT * FROM `admin` where email = '$email'";
                 $res = $conn->query($sql);
                 if ($res->num_rows > 0) {
                     while ($row = $res->fetch_assoc()) {
@@ -42,21 +43,6 @@ if (isset($_POST['login'])) {
                         $_SESSION['lastname'] = $row['lastname'];
                         $_SESSION['email'] = $row['email'];
                         $_SESSION['phone'] = $row['phone'];
-                        $_SESSION['roll'] = $row['roll'];
-                        $_SESSION['booked'] = $row['booked'];
-
-                        if (isset($_SESSION['booked'])) {
-                            if ($_SESSION['booked'] == 1) {
-                                $sql = "SELECT * FROM `bookings` where roll = '$roll' AND `active` = 1";
-                                $res = $conn->query($sql);
-                                while ($row = $res->fetch_assoc()) {
-                                    $_SESSION['start_date'] = $row['starting_date'];
-                                    $_SESSION['roomno'] = $row['roomno'];
-                                    $_SESSION['duration'] = $row['duration'];
-                                    $_SESSION['end_date'] = $row['end_date'];
-                                }
-                            }
-                        }
                     }
                 }
 
@@ -83,8 +69,8 @@ if (isset($_POST['login'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="includes/css/login.css" />
-    <link rel="stylesheet" href="./includes/css/captcha.css" />
+    <link rel="stylesheet" href="../includes/css/login.css" />
+    <link rel="stylesheet" href="../includes/css/captcha.css" />
     <title>Login</title>
 
     <script>
@@ -101,7 +87,7 @@ if (isset($_POST['login'])) {
 
 <body onload="showErr()">
     <div class="login">
-        <h1 id="main-title">Login</h1>
+        <h1 id="main-title">Admin Login</h1>
         <div class="err">
 
             <span id="error-text"
@@ -113,12 +99,12 @@ if (isset($_POST['login'])) {
         <div id="part1">
             <form id="form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-                <input type="text" name="roll" placeholder="Roll No" id="username" edit-me>
+                <input type="email" name="email" placeholder="email@hms.com" id="username" edit-me>
                 <input type="hidden" name="login" hidden>
                 <input type="password" name="password" placeholder="Password" id="password" edit-me>
-                <div class="form-link">
+                <!-- <div class="form-link">
                     <span>Don't have an account? <a href="./signup.php" class="signup-link">Signup</a></span>
-                </div>
+                </div> -->
             </form>
             <input id="loginBtn" class="buttonStyle" type="submit" name="login" value="Login">
         </div>

@@ -2,44 +2,36 @@
 
 session_start();
 
-if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'student')) {
+if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'admin')) {
     header("location: ./login.php");
     exit;
 }
-include './includes/db/config.php';
+include '../includes/db/config.php';
 
-if (isset($_SESSION['firstname']) && isset($_SESSION['email'])) {
-    $firstname = $_SESSION['firstname'];
-    $email = $_SESSION['email'];
-    $roll = $_SESSION['roll'];
-    $lastname = $_SESSION['lastname'];
-    $phone = $_SESSION['phone'];
-    $booked = $_SESSION['booked'];
+$roll = $_GET['roll'];
 
-} else {
-    $firstname = "Hostel Management";
-    $email = "guest@hostel.online";
+$sql = "select * from bookings where roll = '$roll'";
+$res = $conn->query($sql);
+while ($details = $res->fetch_assoc()) {
+    $firstname = $details['firstname'];
+    $lastname = $details['lastname'];
+
+    // $firstname = $fname . " " . $lname;
+
+    $roomno = $details['roomno'];
+    $feespm = 2000;
+    $date = $details['starting_date'];
+    $duration = $details['duration'];
+    $phone = $details['phone'];
+    $email = $details['email'];
+    // $gender = $details['gender'];
+    $gname = $details['guardian_name'];
+    $grel = $details['guardian_relation'];
+    $gcontact = $details['guardian_contact'];
+    $address = $details['address'];
+    $status = $details['status'];
+
 }
-
-if ($booked == 1) {
-    $sql = "select * from bookings where roll = '$roll' and active=1";
-    $res = $conn->query($sql);
-    while ($details = $res->fetch_assoc()) {
-        $roomno = $details['roomno'];
-
-        $feespm = 2000;
-        $date = $details['starting_date'];
-        $duration = $details['duration'];
-        // $gender = $details['gender'];
-        $gname = $details['guardian_name'];
-        $grel = $details['guardian_relation'];
-        $gcontact = $details['guardian_contact'];
-        $address = $details['address'];
-        $status = $details['status'];
-
-    }
-}
-
 
 ?>
 
@@ -51,17 +43,10 @@ if ($booked == 1) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Hostel Management</title>
-    <link rel="stylesheet" href="./includes/css/bookroom.css" />
+    <link rel="stylesheet" href="../includes/css/bookroom.css" />
 </head>
 
 <body>
-    <?php include 'header.html'; ?>
-    <div class="container">
-        <span>
-            <?php echo $firstname; ?> &#62; Room Details
-        </span>
-        <p></p>
-    </div>
     <div class="room-details">
         <div class="container">
             <div class="panel panel-default">
@@ -69,24 +54,19 @@ if ($booked == 1) {
                     <table id="zcb" class="table table-bordered  dataTable" cellspacing="5">
                         <tbody>
 
-                            <tr>
-                                <td colspan="4">
-                                    <h4 style="text-decoration: 1px solid underline;">Room Realted Info</h4>
-                                </td>
-                                <!-- <td><a style="text-decoration: 1px dashed grey underline; font-weight: bold; color: grey;"
-                                        href="javascript:void(0);" onclick="popUpWindow('');"
-                                        title="View Full Details">Print Data</a></td> -->
-                            </tr>
+                            <!-- <tr> -->
+                            <!-- <td><a style="text-decoration: 1px dashed grey underline; font-weight: bold; color: grey;"
+                                    href="javascript:void(0);" onclick="popUpWindow('');"
+                                    title="View Full Details">Print Data</a></td> -->
+                            <!-- </tr> -->
                             <tr>
                                 <td colspan="1"><b>Reg no. :
                                         <?php echo $roll; ?>
                                     </b>
                                 </td>
                                 <td><b>Status :</b></td>
-                                <td style="text-decoration: 1px double grey underline; font-weight: bold;">
-                                    <!-- <i><b> -->
+                                <td style="text-decoration: 2px dotted grey underline; font-weight: bold;">
                                     <?php echo $status; ?>
-                                    <!-- </b></i> -->
                                 </td>
 
                             </tr>
@@ -111,10 +91,6 @@ if ($booked == 1) {
                             </tr>
 
                             <tr>
-                                <!-- <td><b>Food Status:</b></td>
-                                <td>
-                                    <?php //echo $foodstatus; ?>
-                                </td> -->
                                 <td><b>Stay From :</b></td>
                                 <td>
                                     <?php echo $date; ?>
@@ -127,7 +103,7 @@ if ($booked == 1) {
 
                             <tr>
                                 <td colspan="6">
-                                    <h4 style="text-decoration: 1px solid underline;">Personal Info Info</h4>
+                                    <h3 style="text-decoration: 1px solid underline;">Personal Info</h3>
                                 </td>
                             </tr>
 

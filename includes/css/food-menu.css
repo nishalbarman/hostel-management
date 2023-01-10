@@ -1,0 +1,47 @@
+.food-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.food-card-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.food-card-text {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.food-card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.food-card-description {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.food-card-price {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #f60;
+}
+
+.foodings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+}

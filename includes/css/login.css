@@ -30,6 +30,7 @@ body {
 
 .login form input[type="password"],
 .login form input[type="text"],
+.login form input[type="email"],
 .login form input[type="number"] {
   width: 310px;
   height: 50px;
@@ -41,7 +42,8 @@ body {
 }
 
 .button,
-.login form input[type="submit"] {
+.login form input[type="submit"],
+.buttonStyle {
   width: 100%;
   padding: 15px;
   margin-top: 20px;

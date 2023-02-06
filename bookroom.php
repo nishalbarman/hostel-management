@@ -66,15 +66,37 @@ if (isset($_POST['rsubmit'])) {
     }
 
     if ($roomseats > 0) {
-        $sql = "INSERT INTO `bookings`(`roll`, `firstname`, `lastname`, `phone`, `email`, `roomno`,  `starting_date`, `end_date`, `duration`, `guardian_name`, `guardian_contact`, `guardian_relation`, `city`, `state`, `pincode`, `status`, `paid`, `address`, `active`) VALUES ('$roll', '$firstname', '$lastname', '$phone', '$email', '$roomno',  '$date', '$end_date', '$duration', '$gname', '$gcontact', '$grel', '$city', '$state', '$pincode', 'Under Review', 0, '$address', 1)";
+
+        $tableName = $_SESSION['roll'] . "_" . mt_rand(100000, 999999) . "_" . $roomno . "_repayment";
+        $tableName = str_replace(" ", "_", $tableName);
+
+        $sql = "INSERT INTO `bookings`(`roll`, `firstname`, `lastname`, `phone`, `email`, `roomno`,  `starting_date`, `end_date`, `duration`, `guardian_name`, `guardian_contact`, `guardian_relation`, `city`, `state`, `pincode`, `status`, `paid`, `address`, `active`, `repay_table_name`) VALUES ('$roll', '$firstname', '$lastname', '$phone', '$email', '$roomno',  '$date', '$end_date', '$duration', '$gname', '$gcontact', '$grel', '$city', '$state', '$pincode', 'Under Review', 0, '$address', 1, '$tableName')";
 
         $sql2 = "UPDATE `students` SET `booked`='1' where `roll` = '$roll'";
 
         $roomseats = $roomseats - 1;
         $sql3 = "UPDATE `rooms` SET `seats`='$roomseats'  where `roomno` = '$roomno'";
 
-        if ($conn->query($sql) && $conn->query($sql2) && $conn->query($sql3)) {
+        $createTable = "CREATE TABLE `" . $tableName . "` (
+            `id` int(255) NOT NULL,
+            `payment_id` int(255) NOT NULL,
+            `roll` int(255) NOT NULL,
+            `amount` float NOT NULL,
+            `roomno` text NOT NULL,
+            `status` text NOT NULL DEFAULT 'Unpaid'
+          )";
+
+        $rollNo = $_SESSION['roll'];
+        $appliedRoom = "INSERT INTO `applied_rooms` (`roll_no`, `room_table_name`, `room_no`) VALUES($rollNo, '$tableName', '$roomno')";
+
+
+
+        if ($conn->query($sql) && $conn->query($sql2) && $conn->query($sql3) && $conn->query($appliedRoom) && $conn->query($createTable)) {
             $_SESSION['booked'] = 1;
+            for ($index = 1; $index <= $duration; $index++) {
+                $sqlQuery = "INSERT INTO `" . $tableName . "` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES($index, $index, $rollNo, 1000, '$roomno', 'Unpaid');";
+                $result22 = mysqli_query($conn, $sqlQuery);
+            }
             echo "<script>alert('Room Booked and is under review.');
                         window.location = './roomdetails.php';
             </script>";
@@ -124,19 +146,6 @@ if (isset($_POST['rsubmit'])) {
 
                         </select>
                     </li>
-
-                    <!-- <li>
-                        <label>Food Options <span class=" required">*</span></label>
-                                <div class="filed-radio">
-                                    <input type="radio" name="food_op" class="field-divided" value="0" /><span>Without
-                                        Food</span>
-                                    <input type="radio" name="food_op" class="field-divided" value="1" /><span>With Food
-                                        (Extra
-                                        Rs.
-                                        1000 / Month)</span>
-                                </div>
-
-                    </li> -->
 
                     <li>
                         <label>Date <span class="required">*</span></label>

@@ -93,9 +93,9 @@ $details = $res->fetch_all(MYSQLI_ASSOC);
                         <div class="dropdown">
                             <button class="dropbtn">Update</button>
                             <div class="dropdown-content">
-                                <a href="#" onclick="markApproved(<?php echo $room['id']; ?>)">Mark Approved</a>
-                                <a href="#" onclick="updateDetails(<?php echo $room['id']; ?>)">Update Details</a>
-                                <a href="#" onclick="deleteEntry(<?php echo $room['id']; ?>)">Delete Entry</a>
+                                <a href="#" onclick="markApproved(<?php echo $room['roll']; ?>)">Mark Approved</a>
+                                <a href="#" onclick="updateDetails(<?php echo $room['roll']; ?>)">Update Details</a>
+                                <a href="#" onclick="deleteEntry(<?php echo $room['roll']; ?>)">Delete Entry</a>
                             </div>
                         </div>
 
@@ -119,21 +119,42 @@ $details = $res->fetch_all(MYSQLI_ASSOC);
     }
 
     function markApproved(roll) {
-        fetch("./ajax-php/mark-approved?roll=" + roll).then(res => res.json()).then(data => {
-            alert(data.msg);
-        })
+        let query = "UPDATE `bookings` SET `status`='Approved' WHERE `roll`=" + roll + ";";
+        let query2 = "UPDATE `students` SET `booked`=0 WHERE `roll`=" + roll + ";";
+        let formdata = new FormData();
+        let formdata1 = new FormData();
+        formdata.append("query", query);
+        formdata1.append("query", query2);
+
+        let postData = {
+            method: "post",
+            body: formdata,
+        }
+
+        fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+            fetch("./ajax-php/sql-query.php", postData1).then(res => res.json()).then(data => {
+                alert(data.msg);
+            });
+        });
     }
 
     function deleteEntry(roll) {
-        fetch("./ajax-php/mark-approved?roll=" + roll).then(res => res.json()).then(data => {
+        let query = "DELETE FROM `bookings` WHERE `roll`=" + roll + ";";
+        let formdata = new FormData();
+        formdata.append("query", query);
+
+        let postData = {
+            method: "post",
+            body: formdata,
+        }
+
+        fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
             alert(data.msg);
         })
     }
 
     function updateDetails(roll) {
-
         window.location = "./updateroomdt.php?roll=" + roll;
-
     }
     </script>
 </body>

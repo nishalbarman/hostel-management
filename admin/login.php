@@ -74,14 +74,14 @@ if (isset($_POST['login'])) {
     <title>Login</title>
 
     <script>
-    function showErr() {
-        let error = "<?php echo $err; ?>";
-        if (error !== '') {
-            const erText = document.getElementById("error-text");
-            erText.innerHTML = error;
-            erText.style.display = "block";
+        function showErr() {
+            let error = "<?php echo $err; ?>";
+            if (error !== '') {
+                const erText = document.getElementById("error-text");
+                erText.innerHTML = error;
+                erText.style.display = "block";
+            }
         }
-    }
     </script>
 </head>
 
@@ -114,8 +114,10 @@ if (isset($_POST['login'])) {
                         <?php $_SESSION['first'] = rand(1, 9);
                         echo $_SESSION['first']; ?>
                     </span> +
-                    <span class="captcha-number"><?php $_SESSION['second'] = rand(1, 9);
-                    echo $_SESSION['second']; ?></span>?
+                    <span class="captcha-number">
+                        <?php $_SESSION['second'] = rand(1, 9);
+                        echo $_SESSION['second']; ?>
+                    </span>?
                 </div>
                 <input type="number" class="captcha-input" id="captcha-value" edit-me-c>
             </div>
@@ -124,41 +126,41 @@ if (isset($_POST['login'])) {
     </div>
 
     <script>
-    const loginBtn = document.getElementById('loginBtn');
-    loginBtn.addEventListener('click', () => {
-        document.querySelectorAll('[edit-me]').forEach(element => {
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.addEventListener('click', () => {
+            document.querySelectorAll('[edit-me]').forEach(element => {
 
-            if (element.value === "") {
-                alert("Roll No and Password both are Required Bro! Kya kar raha hain tu??");
-                return;
-            } else {
-                document.getElementById('part1').style.display = "none";
-                document.getElementById('part2').style.display = "block";
-                document.getElementById('main-title').textContent = "Solve this Captcha";
-            }
-        });
-    });
-
-    captchaBtn.addEventListener('click', () => {
-        document.querySelectorAll('[edit-me-c]').forEach(element => {
-
-            if (element.value === "") {
-                alert("Robot hai kya tu, Captcha to daal BHAII!!");
-                return;
-            } else {
-                let num1 = '<?php echo $_SESSION['first']; ?>';
-                let num2 = '<?php echo $_SESSION['second']; ?>';
-                let third = parseInt(num1) + parseInt(num2);
-                console.log(third);
-                console.log(element.value);
-                if (parseInt(element.value) === third) {
-                    document.getElementById('form-data').submit();
+                if (element.value === "") {
+                    alert("Roll No and Password both are Required Bro! Kya kar raha hain tu??");
+                    return;
                 } else {
-                    alert("BHAII tu robot lagta hain, Captcha galat hai reee...");
+                    document.getElementById('part1').style.display = "none";
+                    document.getElementById('part2').style.display = "block";
+                    document.getElementById('main-title').textContent = "Solve this Captcha";
                 }
-            }
+            });
         });
-    });
+
+        captchaBtn.addEventListener('click', () => {
+            document.querySelectorAll('[edit-me-c]').forEach(element => {
+
+                if (element.value === "") {
+                    alert("Robot hai kya tu, Captcha to daal BHAII!!");
+                    return;
+                } else {
+                    let num1 = '<?php echo $_SESSION['first']; ?>';
+                    let num2 = '<?php echo $_SESSION['second']; ?>';
+                    let third = parseInt(num1) + parseInt(num2);
+                    console.log(third);
+                    console.log(element.value);
+                    if (parseInt(element.value) === third) {
+                        document.getElementById('form-data').submit();
+                    } else {
+                        alert("BHAII tu robot lagta hain, Captcha galat hai reee...");
+                    }
+                }
+            });
+        });
     </script>
 </body>
 

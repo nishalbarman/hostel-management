@@ -49,14 +49,14 @@ if (isset($_POST['signup'])) {
     <link rel="stylesheet" href="includes/css/login.css" />
     <title>Login</title>
     <script>
-        function showErr() {
-            let error = "<?php echo $err; ?>";
-            if (error !== '') {
-                const erText = document.getElementById("error-text");
-                erText.innerHTML = error;
-                erText.style.display = "block";
-            }
+    function showErr() {
+        let error = "<?php echo $err; ?>";
+        if (error !== '') {
+            const erText = document.getElementById("error-text");
+            erText.innerHTML = error;
+            erText.style.display = "block";
         }
+    }
     </script>
 </head>
 
@@ -108,41 +108,40 @@ if (isset($_POST['signup'])) {
     </div>
 
     <script>
-        const mainForm = document.getElementById("signupForm");
-        const submitMe = document.getElementById("submitMe");
-        const otpText = document.getElementById("otp-text");
-        const otpForm = document.getElementById("otpForm");
-        let hd;
-        function submitForm() {
-            mainForm.style.display = "none";
-            otpForm.style.display = "block";
-            otpText.innerHTML = "Preparing, please wait..";
-            otpText.style.display = 'block';
-            let email = document.getElementById("email").value;
-            // otp = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000
-            // console.log(hd);
-            fetch('./send.php?email=' + email).then(res => res.json()).then(data => {
-                // console.log(data);
-                if (data.status == 1) {
-                    hd = data.kht;
-                    console.log(hd);
-                    otpText.innerHTML = "OTP has been sent on email";
-                } else {
-                    otpText.innerHTML = "Some error occured, click on Resend";
-                }
-            });
-        }
+    const mainForm = document.getElementById("signupForm");
+    const submitMe = document.getElementById("submitMe");
+    const otpText = document.getElementById("otp-text");
+    const otpForm = document.getElementById("otpForm");
+    let hd;
 
-        function validateOtp() {
-            let inputOtp = document.getElementById("otp").value;
-            if (inputOtp == hd) {
-                submitMe.submit();
+    function submitForm() {
+        mainForm.style.display = "none";
+        otpForm.style.display = "block";
+        otpText.innerHTML = "Preparing, please wait..";
+        otpText.style.display = 'block';
+        let email = document.getElementById("email").value;
+        // otp = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000
+        // console.log(hd);
+        fetch('./send.php?email=' + email).then(res => res.json()).then(data => {
+            // console.log(data);
+            if (data.status == 1) {
+                hd = data.kht;
+                console.log(hd);
+                otpText.innerHTML = "OTP has been sent on email";
             } else {
-                alert("Invalid OTP.");
+                otpText.innerHTML = "Some error occured, click on Resend";
             }
+        });
+    }
+
+    function validateOtp() {
+        let inputOtp = document.getElementById("otp").value;
+        if (inputOtp == hd) {
+            submitMe.submit();
+        } else {
+            alert("Invalid OTP.");
         }
-
-
+    }
     </script>
 
 

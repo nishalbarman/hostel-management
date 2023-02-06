@@ -36,19 +36,19 @@ include '../includes/db/config.php';
         <div class="cards-">
             <div class="card">
                 <div class="backgr">
-                    <label>My Profile</label>
+                    <label>Book Room</label>
                 </div>
                 <div class="bottom">
-                    <a href="./profile.php">Full Detail &DDotrahd;</a>
+                    <a href="./bookroom.php">Full Detail &DDotrahd;</a>
                 </div>
             </div>
 
             <div class="card2">
                 <div class="backgr">
-                    <label>My Room</label>
+                    <label>List Rooms</label>
                 </div>
                 <div class="bottom">
-                    <a href="./roomdetails.php">Full Detail &DDotrahd;</a>
+                    <a href="./roomlist.php">Full Detail &DDotrahd;</a>
                 </div>
             </div>
         </div>

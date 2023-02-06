@@ -4,11 +4,9 @@ $err = '';
 
 session_start();
 
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    if ($_SESSION['role'] === 1) {
-        header("location: ./dashboard.php");
-        exit;
-    }
+if ((isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'admin')) {
+    header("location: ./dashboard.php");
+    exit;
 }
 
 include '../includes/db/config.php';

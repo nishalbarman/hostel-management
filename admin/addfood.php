@@ -1,16 +1,11 @@
-<?php include 'header.html';
-include '../config/db.php';
-
+<?php
 session_start();
 
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
+if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'admin')) {
+    header("location: ./login.php");
     exit;
 }
-
-$sql = "SELECT * FROM foodcategory";
-$res = $conn->query($sql);
-$category = $res->fetch_all(MYSQLI_ASSOC);
+include '../includes/db/config.php';
 
 if (isset($_POST['submit'])) {
     $image = time() . '_' . $_FILES['myfile']['name'];
@@ -18,8 +13,6 @@ if (isset($_POST['submit'])) {
     $subtitle = $_POST['subtitle'];
     $stocks = $_POST['stocks'];
     $amount = $_POST['amount'];
-    $cat = $_POST['category'];
-
     $destination = '../food-images/' . $image;
     $file = $_FILES['myfile']['tmp_name'];
 
@@ -29,20 +22,7 @@ if (isset($_POST['submit'])) {
         echo "You file extension must be .png, .jpg or .jpeg";
     } else {
         if (move_uploaded_file($file, $destination)) {
-            $sql = "INSERT INTO `fooditems` (`title`, `subtitle`, `stocks`, `amount`, `reviews`, `total-feedbacks`, `image`, `category`) VALUES ('$title', '$subtitle', '$stocks', '$amount', '0', '0', '$image', '$cat');";
-
-            $sql2 = "SELECT * FROM foodcategory WHERE catname = '$cat'";
-
-            $res = $conn->query($sql2);
-
-            while ($row = $res->fetch_assoc()) {
-                $items = $row['items'];
-            }
-
-            $items = $items + 1;
-
-            $sql2 = "UPDATE `foodcategory` SET `items`='$items'";
-            $res = $conn->query($sql2);
+            $sql = "INSERT INTO `fooditems` (`title`, `subtitle`, `stocks`, `amount`, `reviews`, `total-feedbacks`, `image`, `category`) VALUES ('$title', '$subtitle', '$stocks', '$amount', '0', '0', '$image', 'none');";
 
             if (mysqli_query($conn, $sql)) {
                 echo "<script>alert('Food Added.');</script>";
@@ -53,6 +33,8 @@ if (isset($_POST['submit'])) {
     }
 }
 
+$firstname = $_SESSION['firstname'];
+
 ?>
 
 <!DOCTYPE html>
@@ -60,42 +42,48 @@ if (isset($_POST['submit'])) {
 
 <head>
     <meta name="robots" content="noindex">
-    <link rel="stylesheet" href="adminstyles/addfood.css">
+    <link rel="stylesheet" href="../includes/css/bookroom.css" />
     <title>Add Food Items</title>
 </head>
 
 <body>
-    <div class="content" id="main">
-        <h1 class="my-5"><b>
-            </b>Add Food Items</h1>
+    <?php include 'header.html'; ?>
+    <div class="container" id="main">
+
+        <span>
+            <?php echo $firstname; ?> &#62; Add Food
+        </span>
+        <p></p>
+
         <div class="login">
             <form action="" method="post" enctype="multipart/form-data">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" placeholder="Title">
+                <ul class="form-style">
+                    <li>
+                        <label for="title">Title</label>
+                        <input class="field-long" type="text" id="title" name="title" placeholder="Title">
+                    </li>
+                    <li>
+                        <label for="subtitle">Subtitle</label>
+                        <textarea class="field-long" type="number" id="subtitle" name="subtitle"
+                            placeholder="Maximum 104 chars" maxlength="104"></textarea>
+                    </li>
+                    <li>
+                        <label>Choose Image</label>
+                        <input class="field-long" class="file_up" type="file" name="myfile"> <br>
+                    </li>
 
-                <label for="subtitle">Subtitle</label><br>
-                <textarea type="number" id="subtitle" name="subtitle" placeholder="Maximum 104 chars"
-                    maxlength="104"></textarea>
-
-                <label>Choose Image</label>
-                <input class="file_up" type="file" name="myfile"> <br>
-
-                <label for="category">Category</label>
-                <select id="category" name="category">
-                    <?php foreach ($category as $item): ?>
-                        <option value="<?php echo $item['catname']; ?>">
-                            <?php echo $item['catname']; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-
-                <label for="stocks">Stocks</label>
-                <input type="number" id="stocks" name="stocks" placeholder="Stocks">
-
-                <label for="amount">Amount</label>
-                <input type="number" id="amount" name="amount" placeholder="Price of Food">
-
-                <input type="submit" name="submit" value="Submit" />
+                    <li>
+                        <label for="stocks">Stocks</label>
+                        <input class="field-long" type="number" id="stocks" name="stocks" placeholder="Stocks">
+                    </li>
+                    <li>
+                        <label for="amount">Amount</label>
+                        <input class="field-long" type="number" id="amount" name="amount" placeholder="Price of Food">
+                    </li>
+                    <li>
+                        <input class="field-long" type="submit" name="submit" value="Submit" />
+                    </li>
+                </ul>
             </form>
         </div>
         <br>

@@ -1,12 +1,12 @@
-<?php include 'header.html';
-include '../config/db.php';
+<?php
 
 session_start();
 
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
+if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'admin')) {
+    header("location: ./login.php");
     exit;
 }
+include '../includes/db/config.php';
 
 $idd = $_GET['id'];
 
@@ -67,6 +67,8 @@ if (isset($_POST['submit'])) {
 
 }
 
+$firstname = $_SESSION['firstname'];
+
 ?>
 
 <!DOCTYPE html>
@@ -74,35 +76,51 @@ if (isset($_POST['submit'])) {
 
 <head>
     <meta name="robots" content="noindex">
-    <link rel="stylesheet" href="adminstyles/addfood.css">
+    <link rel="stylesheet" href="../includes/css/bookroom.css" />
     <title>Add Food Items</title>
 </head>
 
 <body>
-    <div class="content" id="main">
+    <?php include "header.html"; ?>
+    <span>
+        <?php echo $firstname; ?> &#62; Update Food
+    </span>
+    <p></p>
+    <div class="container">
         <h1 class="my-5"><b>
             </b>Update Food</h1>
         <div class="login">
-            <form action="" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="id" name="id" value="<?php echo $idd; ?>">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" placeholder="Title" value="<?php echo $title; ?>">
-
-                <label for="subtitle">Subtitle</label><br>
-                <textarea type="number" id="subtitle" name="subtitle"
-                    placeholder="Subtitle"><?php echo $subtitle; ?></textarea>
-
-                <label>Choose Image (Optional)</label>
-                <input class="file_up" type="file" name="myfile"> <br>
-
-                <label for="stocks">Stocks</label>
-                <input type="number" id="stocks" name="stocks" placeholder="Stocks" value="<?php echo $stocks; ?>">
-
-                <label for="amount">Amount</label>
-                <input type="number" id="amount" name="amount" placeholder="Price of Food"
-                    value="<?php echo $amount; ?>">
-
-                <input type="submit" name="submit" value="Submit" />
+            <form action="" method="post" enctype="multipart/form-data" class="">
+                <ul class="form-style">
+                    <li>
+                        <input class="field-long" type="hidden" id="id" name="id" value="<?php echo $idd; ?>">
+                        <label for="title">Title</label>
+                        <input class="field-long" type="text" id="title" name="title" placeholder="Title"
+                            value="<?php echo $title; ?>">
+                    </li>
+                    <li>
+                        <label for="subtitle">Subtitle</label><br>
+                        <textarea class="field-long" type="number" id="subtitle" name="subtitle"
+                            placeholder="Subtitle"><?php echo $subtitle; ?></textarea>
+                    </li>
+                    <li>
+                        <label>Choose Image (Optional)</label>
+                        <input class="field-long" class="file_up" type="file" name="myfile"> <br>
+                    </li>
+                    <li>
+                        <label for="stocks">Stocks</label>
+                        <input class="field-long" type="number" id="stocks" name="stocks" placeholder="Stocks"
+                            value="<?php echo $stocks; ?>">
+                    </li>
+                    <li>
+                        <label for="amount">Amount</label>
+                        <input class="field-long" type="number" id="amount" name="amount" placeholder="Price of Food"
+                            value="<?php echo $amount; ?>">
+                    </li>
+                    <li>
+                        <input class="field-long" type="submit" name="submit" value="Submit" />
+                    </li>
+                </ul>
             </form>
         </div>
         <br>

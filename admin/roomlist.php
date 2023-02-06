@@ -36,11 +36,11 @@ $details = $res->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="../includes/css/bookroom.css" />
     <link rel="stylesheet" href="../includes/css/dropdown.css" />
     <style>
-    .button-add {
-        display: flex;
-        justify-content: flex-start;
-        margin-bottom: 15px;
-    }
+        .button-add {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
@@ -66,30 +66,29 @@ $details = $res->fetch_all(MYSQLI_ASSOC);
             <tbody>
                 <?php foreach ($details as $room):
                     ?>
-                <tr>
-                    <td style="text-align:center;">
-                        <?php echo $room['id']; ?>
-                    </td>
-                    <td style="text-align:center;">
-                        <?php echo $room['roomno']; ?>
-                    </td>
-                    <td style="text-align:center;">
-                        <?php echo $room['seats']; ?>
-                    </td>
-                    <td style="text-align:center;">
-                        <div class="dropdown">
-                            <button class="dropbtn">Update</button>
-                            <div class="dropdown-content">
-                                <a href="#" onclick="markApproved(<?php echo $room['id']; ?>)">Mark Approved</a>
-                                <a href="#" onclick="updateDetails(<?php echo $room['id']; ?>)">Update Details</a>
-                                <a href="#" onclick="deleteEntry(<?php echo $room['id']; ?>)">Delete Entry</a>
+                    <tr>
+                        <td style="text-align:center;">
+                            <?php echo $room['id']; ?>
+                        </td>
+                        <td style="text-align:center;">
+                            <?php echo $room['roomno']; ?>
+                        </td>
+                        <td style="text-align:center;">
+                            <?php echo $room['seats']; ?>
+                        </td>
+                        <td style="text-align:center;">
+                            <div class="dropdown">
+                                <button class="dropbtn">Update</button>
+                                <div class="dropdown-content">
+                                    <a href="#" onclick="updateDetails(<?php echo $room['id']; ?>)">Update Details</a>
+                                    <a href="#" onclick="deleteEntry(<?php echo $room['id']; ?>)">Delete Entry</a>
+                                </div>
                             </div>
-                        </div>
 
-                    </td>
+                        </td>
 
 
-                </tr>
+                    </tr>
 
                 <?php endforeach; ?>
 
@@ -99,35 +98,35 @@ $details = $res->fetch_all(MYSQLI_ASSOC);
         <?php include('./pops/add-rooms.php'); ?>
     </div>
     <script>
-    const addRoom = document.getElementById('add-room');
+        const addRoom = document.getElementById('add-room');
 
-    addRoom.addEventListener('click', () => {
-        popup.classList.add('show');
-    });
+        addRoom.addEventListener('click', () => {
+            popup.classList.add('show');
+        });
 
-    function showPop(url) {
-        document.getElementById('popup-body').innerHTML = "<iframe style='width: 100%; height:100%;'  src='" + url +
-            "' frameborder='0'></iframe>";
-        popup.classList.add('show');
-    }
+        function showPop(url) {
+            document.getElementById('popup-body').innerHTML = "<iframe style='width: 100%; height:100%;'  src='" + url +
+                "' frameborder='0'></iframe>";
+            popup.classList.add('show');
+        }
 
-    function markApproved(roll) {
-        fetch("./ajax-php/mark-approved?roll=" + roll).then(res => res.json()).then(data => {
-            alert(data.msg);
-        })
-    }
+        function deleteEntry(id) {
+            let query = "DELETE FROM `rooms` WHERE `id`=" + id;
+            let formdata = new FormData();
+            formdata.append("query", query);
+            let postData = {
+                method: "post",
+                body: formdata,
+            }
 
-    function deleteEntry(roll) {
-        fetch("./ajax-php/mark-approved?roll=" + roll).then(res => res.json()).then(data => {
-            alert(data.msg);
-        })
-    }
+            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                alert(data.msg);
+            })
+        }
 
-    function updateDetails(roll) {
-
-        window.location = "./updateroomdt.php?roll=" + roll;
-
-    }
+        function updateDetails(roll) {
+            window.location = "./updateroomno.php?id=" + roll;
+        }
     </script>
 </body>
 

@@ -16,7 +16,7 @@ if (!isset($_GET['roll'])) {
 
 $roll = $_GET['roll'];
 
-$sql = "SELECT * FROM `bookings` WHERE `id`='$roll'";
+$sql = "SELECT * FROM `bookings` WHERE `roll`=$roll";
 $res = $conn->query($sql);
 
 while ($row = $res->fetch_assoc()) {
@@ -38,6 +38,8 @@ while ($row = $res->fetch_assoc()) {
     $duration = $row['duration'];
     $email = $row['email'];
 }
+
+$firstname = $_SESSION['firstname'];
 
 ?>
 
@@ -71,9 +73,9 @@ while ($row = $res->fetch_assoc()) {
                         foreach ($rooms as $rno):
                             ?>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <option value="<?php echo $rno['roomno']; ?>">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <?php echo $rno['roomno']; ?>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </option>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <option value="<?php echo $rno['roomno']; ?>">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <?php echo $rno['roomno']; ?>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </option>
 
                         <?php endforeach; ?>
 
@@ -96,9 +98,9 @@ while ($row = $res->fetch_assoc()) {
                     <?php for ($i = 1; $i <= 12; $i++):
                         ?>
 
-                    <option value="<?php echo $i; ?>">
-                        <?php echo $i; ?>
-                    </option>
+                        <option value="<?php echo $i; ?>">
+                            <?php echo $i; ?>
+                        </option>
 
                     <?php endfor; ?>
 
@@ -170,208 +172,208 @@ while ($row = $res->fetch_assoc()) {
 
     </div>
     <script>
-    function updateMe(obj) {
+        function updateMe(obj) {
 
-        if (obj.getAttribute('id') === 'starting-date') {
-            let query = "UPDATE `bookings` SET `starting_date`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-            formdata.append("date", obj.value);
-            formdata.append("duration", document.getElementById('duration').value);
-            formdata.append("endate", "true");
+            if (obj.getAttribute('id') === 'starting-date') {
+                let query = "UPDATE `bookings` SET `starting_date`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+                formdata.append("date", obj.value);
+                formdata.append("duration", document.getElementById('duration').value);
+                formdata.append("endate", "true");
 
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                    // console.log(data);
+                })
+
+            } else if (obj.getAttribute('id') === 'duration') {
+                let query = "UPDATE `bookings` SET `duration`='" + obj.options[obj.selectedIndex].text +
+                    "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+                formdata.append("date", document.getElementById('starting-date').value);
+                formdata.append("duration", obj.value);
+                formdata.append("endate", "true");
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'firstname') {
+                let query = "UPDATE `bookings` SET `firstname`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'lastname') {
+                let query = "UPDATE `bookings` SET `lastname`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'gname') {
+                let query = "UPDATE `bookings` SET `guardian_name`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'grelation') {
+                let query = "UPDATE `bookings` SET `guardian_relation`='" + obj.value +
+                    "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'gcontact') {
+                let query = "UPDATE `bookings` SET `guardian_contact`='" + obj.value +
+                    "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'address') {
+                let query = "UPDATE `bookings` SET `address`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'city') {
+                let query = "UPDATE `bookings` SET `city`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'state') {
+                let query = "UPDATE `bookings` SET `state`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
+            } else if (obj.getAttribute('id') === 'pincode') {
+                let query = "UPDATE `bookings` SET `pincode`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
+                let formdata = new FormData();
+                formdata.append("query", query);
+
+                let postData = {
+                    // headers: {
+                    //     "content-Type": "multipart/form-data",
+                    // },
+                    method: "post",
+                    body: formdata,
+                }
+
+                fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
+                    alert(data.msg);
+                })
+
             }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-                // console.log(data);
-            })
-
-        } else if (obj.getAttribute('id') === 'duration') {
-            let query = "UPDATE `bookings` SET `duration`='" + obj.options[obj.selectedIndex].text +
-                "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-            formdata.append("date", document.getElementById('starting-date').value);
-            formdata.append("duration", obj.value);
-            formdata.append("endate", "true");
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'firstname') {
-            let query = "UPDATE `bookings` SET `firstname`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'lastname') {
-            let query = "UPDATE `bookings` SET `lastname`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'gname') {
-            let query = "UPDATE `bookings` SET `guardian_name`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'grelation') {
-            let query = "UPDATE `bookings` SET `guardian_relation`='" + obj.value +
-                "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'gcontact') {
-            let query = "UPDATE `bookings` SET `guardian_contact`='" + obj.value +
-                "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'address') {
-            let query = "UPDATE `bookings` SET `address`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'city') {
-            let query = "UPDATE `bookings` SET `city`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'state') {
-            let query = "UPDATE `bookings` SET `state`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
-
-        } else if (obj.getAttribute('id') === 'pincode') {
-            let query = "UPDATE `bookings` SET `pincode`='" + obj.value + "'WHERE `id`='<?php echo $roll; ?>'";
-            let formdata = new FormData();
-            formdata.append("query", query);
-
-            let postData = {
-                // headers: {
-                //     "content-Type": "multipart/form-data",
-                // },
-                method: "post",
-                body: formdata,
-            }
-
-            fetch("./ajax-php/sql-query.php", postData).then(res => res.json()).then(data => {
-                alert(data.msg);
-            })
 
         }
-
-    }
     </script>
 </body>
 

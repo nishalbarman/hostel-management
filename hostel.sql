@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2023 at 05:49 AM
+-- Generation Time: Feb 06, 2023 at 06:00 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -20,30 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `hostel`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `2510_511797_1234_repayment`
---
-
-CREATE TABLE `2510_511797_1234_repayment` (
-  `id` int(255) NOT NULL,
-  `payment_id` int(255) NOT NULL,
-  `roll` int(255) NOT NULL,
-  `amount` float NOT NULL,
-  `roomno` text NOT NULL,
-  `status` text NOT NULL DEFAULT 'Unpaid'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `2510_511797_1234_repayment`
---
-
-INSERT INTO `2510_511797_1234_repayment` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES
-(1, 1, 2510, 1000, '1234', 'Paid'),
-(2, 2, 2510, 1000, '1234', 'Paid'),
-(3, 3, 2510, 1000, '1234', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -79,13 +55,6 @@ CREATE TABLE `applied_rooms` (
   `room_table_name` varchar(255) NOT NULL,
   `room_no` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `applied_rooms`
---
-
-INSERT INTO `applied_rooms` (`id`, `roll_no`, `room_table_name`, `room_no`) VALUES
-(4, 2510, '2510_511797_1234_repayment', 1234);
 
 -- --------------------------------------------------------
 
@@ -141,7 +110,7 @@ CREATE TABLE `fooditems` (
 --
 
 INSERT INTO `fooditems` (`id`, `title`, `subtitle`, `stocks`, `amount`, `reviews`, `total-feedbacks`, `image`, `category`) VALUES
-(1, 'Burger', 'Best burger of our locality we are proud', '101', 1001, 0, 0, 'burger.jpg', 'Non-Veg Items'),
+(1, 'Burger', 'Best burger of our locality we are proud', '101', 1000, 0, 0, 'burger.jpg', 'Non-Veg Items'),
 (2, 'Roti', 'Best roti of our locality we are proud', '10', 100, 0, 0, 'roti.webp', 'Veg Items'),
 (3, 'Fried Chicken', 'Best fried chicken of our locality we are proud', '10', 100, 0, 0, 'chicken.jpeg', 'Non-Veg Items'),
 (4, 'Momos', 'Best Momos of the decade you will love it', '10', 100, 0, 0, 'momos.jpeg', 'Non-Veg Items'),
@@ -153,7 +122,8 @@ INSERT INTO `fooditems` (`id`, `title`, `subtitle`, `stocks`, `amount`, `reviews
 (11, 'Chicken Hakka Noodles', 'Indo Chinese Chicken Hakka Noodles is a quite popular street food in India', '211', 132, 0, 0, '1671429184_Chicken-Hakka-Noodles-2-3.jpg', 'Non-Veg Items'),
 (12, 'Egg Chowmein', 'This version of chowmein is popular in roadside stalls across Calcutta', '212', 213, 0, 0, '1671429633_maxresdefault.jpg', 'Veg Items'),
 (13, 'Paneer Chowmein', 'For a speedy vegetarian delight', '122', 131, 0, 0, '1671429780_paneer-chowmein-copy-440x396.jpg', 'Veg Items'),
-(14, 'Chicken Chowmein', 'A super tasty Chicken Chow Mein with succulent pieces of marinated chicken and lots of fresh veggies ...', '123', 132, 0, 0, '1671429833_chicken_chow_mein_recipe_card.jpg', 'Non-Veg Items');
+(14, 'Chicken Chowmein', 'A super tasty Chicken Chow Mein with succulent pieces of marinated chicken and lots of fresh veggies ...', '123', 132, 0, 0, '1671429833_chicken_chow_mein_recipe_card.jpg', 'Non-Veg Items'),
+(0, 'Bugga Food', 'This is the greatest food of all time, we can see', '165', 100, 0, 0, '1675702454_till-bugga-recipe-main-photo.jpg', 'none');
 
 -- --------------------------------------------------------
 
@@ -218,13 +188,6 @@ CREATE TABLE `students` (
   `booked` tinyint(1) NOT NULL DEFAULT 0,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`id`, `firstname`, `lastname`, `phone`, `email`, `roll`, `gender`, `booked`, `password`) VALUES
-(20, 'NISHAL', 'BARMAN', '09101114906', 'nishalbarman@gmail.com', '2510', 'Male', 1, '$2y$10$i.EQD5chvs3Ib1zeZL.seesRYXyPcLmOOSt4PpgSJqihRYBPp3TV2');
 
 --
 -- Indexes for dumped tables

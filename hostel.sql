@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2023 at 06:40 PM
+-- Generation Time: Feb 08, 2023 at 04:53 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `2509_543240_1234_repayment`
+-- Table structure for table `44401_714158_1234_repayment`
 --
 
-CREATE TABLE `2509_543240_1234_repayment` (
+CREATE TABLE `44401_714158_1234_repayment` (
   `id` int(255) NOT NULL,
   `payment_id` int(255) NOT NULL,
   `roll` int(255) NOT NULL,
@@ -37,14 +37,60 @@ CREATE TABLE `2509_543240_1234_repayment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `2509_543240_1234_repayment`
+-- Dumping data for table `44401_714158_1234_repayment`
 --
 
-INSERT INTO `2509_543240_1234_repayment` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES
-(1, 1, 2509, 1000, '1234', 'Paid'),
-(2, 2, 2509, 1000, '1234', 'Unpaid'),
-(3, 3, 2509, 1000, '1234', 'Unpaid'),
-(4, 4, 2509, 1000, '1234', 'Unpaid');
+INSERT INTO `44401_714158_1234_repayment` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES
+(1, 1, 44401, 2000, '1234', 'Unpaid'),
+(2, 2, 44401, 2000, '1234', 'Unpaid');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `44401_986154_1234_repayment`
+--
+
+CREATE TABLE `44401_986154_1234_repayment` (
+  `id` int(255) NOT NULL,
+  `payment_id` int(255) NOT NULL,
+  `roll` int(255) NOT NULL,
+  `amount` float NOT NULL,
+  `roomno` text NOT NULL,
+  `status` text NOT NULL DEFAULT 'Unpaid'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `44401_986154_1234_repayment`
+--
+
+INSERT INTO `44401_986154_1234_repayment` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES
+(1, 1, 44401, 2000, '1234', 'Unpaid'),
+(2, 2, 44401, 2000, '1234', 'Unpaid'),
+(3, 3, 44401, 2000, '1234', 'Unpaid'),
+(4, 4, 44401, 2000, '1234', 'Unpaid');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `44401_992366_1234_repayment`
+--
+
+CREATE TABLE `44401_992366_1234_repayment` (
+  `id` int(255) NOT NULL,
+  `payment_id` int(255) NOT NULL,
+  `roll` int(255) NOT NULL,
+  `amount` float NOT NULL,
+  `roomno` text NOT NULL,
+  `status` text NOT NULL DEFAULT 'Unpaid'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `44401_992366_1234_repayment`
+--
+
+INSERT INTO `44401_992366_1234_repayment` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES
+(1, 1, 44401, 2000, '1234', 'Unpaid'),
+(2, 2, 44401, 2000, '1234', 'Unpaid');
 
 -- --------------------------------------------------------
 
@@ -66,7 +112,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `firstname`, `lastname`, `phone`, `email`, `password`) VALUES
-(1, 'NISHAL', 'BARMAN', '9101114906', 'nishalbarman@gmail.com', '$2y$10$ZeuhUC9tdHqkACwnR9md4eyzHCS16ZPunUqgZP0zRMuVBeNzJkhQu'),
+(1, 'NISHAL', 'BARMAN', '9101114906', 'nishalbarman@gmail.com', '$2y$10$Ui13oSLHNmEtU75nmeA0WOHeWEB5IaZR4zKqxgGwLqt3gJ3wBjN9u'),
 (2, 'Prabal', 'Sarma', '1234567890', 'prabal@gmail.com', '$2y$10$7niyJ03oVGJJfeM.1TXa5..2UAqSc8hPe55h3DgR9zR5GM03rYrmC');
 
 -- --------------------------------------------------------
@@ -87,7 +133,9 @@ CREATE TABLE `applied_rooms` (
 --
 
 INSERT INTO `applied_rooms` (`id`, `roll_no`, `room_table_name`, `room_no`) VALUES
-(5, 2509, '2509_543240_1234_repayment', 1234);
+(8, 44401, '44401_986154_1234_repayment', 1234),
+(9, 44401, '44401_714158_1234_repayment', 1234),
+(10, 44401, '44401_992366_1234_repayment', 1234);
 
 -- --------------------------------------------------------
 
@@ -125,7 +173,9 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `roll`, `firstname`, `lastname`, `phone`, `email`, `roomno`, `foodoption`, `starting_date`, `end_date`, `duration`, `guardian_name`, `guardian_contact`, `guardian_relation`, `city`, `state`, `pincode`, `status`, `paid`, `address`, `active`, `repay_table_name`) VALUES
-(15, 2509, 'Prabal', 'Sarma', '123456789', 'prabaljyotisarma@gmail.com', 1234, 0, '2023-02-06', '2023-08-06', 4, 'Test', 'Test', 'Father', 'Test', 'Test', 781335, 'Approved', 0, 'Test', 1, '2509_543240_1234_repayment');
+(20, 44401, 'NISHAL', 'BARMAN', '', 'nishalbarman@gmail.com', 1234, 0, '2023-02-08', '2023-05-08', 4, 'Debananda Barman', '9101114906', 'Father', 'NALBARI', 'ASSAM', 781341, 'Under Review', 0, 'Vill./P.O. - Balikaria, Nalbari, Nalbari - Kaithalkuchi Road', 1, ''),
+(21, 44401, 'Nishal', 'Barman', '', 'nishalbarman@gmail.com', 1234, 0, '2023-02-08', '2023-05-08', 2, 'd', '1113', 'd', 'Nalbari', 'Assam', 781341, 'Under Review', 0, 'Vill./P.O. - Balikaria, Nalbari - Kaithalkuchi Road', 1, ''),
+(22, 44401, 'Nishal', 'Barman', '+919101114906', 'nishalbarman@gmail.com', 1234, 0, '2023-02-08', '2023-05-08', 2, 'd', '1113', 'd', 'Nalbari', 'Assam', 781341, 'Under Review', 0, 'Vill./P.O. - Balikaria, Nalbari - Kaithalkuchi Road', 1, '');
 
 -- --------------------------------------------------------
 
@@ -210,7 +260,7 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `roomno`, `seats`) VALUES
-(1, 1234, 45);
+(1, 1234, 38);
 
 -- --------------------------------------------------------
 
@@ -235,7 +285,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `firstname`, `lastname`, `phone`, `email`, `roll`, `gender`, `booked`, `password`) VALUES
-(21, 'Prabal', 'Sarma', '123456789', 'prabaljyotisarma@gmail.com', '2509', 'Male', 1, '$2y$10$7niyJ03oVGJJfeM.1TXa5..2UAqSc8hPe55h3DgR9zR5GM03rYrmC');
+(21, 'Prabal', 'Sarma', '123456789', 'prabaljyotisarma@gmail.com', '2509', 'Male', 1, '$2y$10$7niyJ03oVGJJfeM.1TXa5..2UAqSc8hPe55h3DgR9zR5GM03rYrmC'),
+(22, 'NISHAL', 'BARMAN', '09101114906', 'nishal@gmail.com', '44401', '', 1, '$2y$10$Ui13oSLHNmEtU75nmeA0WOHeWEB5IaZR4zKqxgGwLqt3gJ3wBjN9u');
 
 --
 -- Indexes for dumped tables
@@ -297,13 +348,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `applied_rooms`
 --
 ALTER TABLE `applied_rooms`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -321,7 +372,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

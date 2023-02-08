@@ -169,7 +169,7 @@ if (isset($_POST['rsubmit'])) {
                     </li>
 
                     <li>
-                        <label>Guardian Contact <span class="required">*</span></label>
+                        <label>Contact <span class="required">*</span></label>
                         <input type="text" name="phone" class="field-long" required />
                     </li>
 

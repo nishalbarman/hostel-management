@@ -16,8 +16,8 @@ $rooms = $res->fetch_all(MYSQLI_ASSOC);
 
 if (isset($_POST['rsubmit'])) {
     $roomno = $_POST['roomno'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
+    $fname = $_POST['firstname'];
+    $lname = $_POST['lastname'];
     $email = $_POST['email'];
     $date = $_POST['date'];
     $duration = $_POST['duration'];
@@ -39,17 +39,37 @@ if (isset($_POST['rsubmit'])) {
     }
 
     if ($roomseats > 0) {
-        $sql = "INSERT INTO `bookings`(`roll`, `firstname`, `lastname`, `phone`, `email`, `roomno`,  `starting_date`, `end_date`, `duration`, `guardian_name`, `guardian_contact`, `guardian_relation`, `city`, `state`, `pincode`, `status`, `paid`, `address`, `active`) VALUES ('$roll', '$firstname', '$lastname', '$phone', '$email', '$roomno',  '$date', '$end_date', '$duration', '$gname', '$gcontact', '$grel', '$city', '$state', '$pincode', 'Under Review', 0, '$address', 1)";
+
+        $tableName = $_POST['roll'] . "_" . mt_rand(100000, 999999) . "_" . $roomno . "_repayment";
+        $tableName = str_replace(" ", "_", $tableName);
+
+        $sql = "INSERT INTO `bookings`(`roll`, `firstname`, `lastname`, `phone`, `email`, `roomno`,  `starting_date`, `end_date`, `duration`, `guardian_name`, `guardian_contact`, `guardian_relation`, `city`, `state`, `pincode`, `status`, `paid`, `address`, `active`) VALUES ('$roll', '$fname', '$lname', '$phone', '$email', '$roomno',  '$date', '$end_date', '$duration', '$gname', '$gcontact', '$grel', '$city', '$state', '$pincode', 'Under Review', 0, '$address', 1)";
 
         $sql2 = "UPDATE `students` SET `booked`='1' where `roll` = '$roll'";
 
         $roomseats = $roomseats - 1;
         $sql3 = "UPDATE `rooms` SET `seats`='$roomseats'  where `roomno` = '$roomno'";
 
-        if ($conn->query($sql) && $conn->query($sql2) && $conn->query($sql3)) {
-            $_SESSION['booked'] = 1;
+        $createTable = "CREATE TABLE `" . $tableName . "` (
+            `id` int(255) NOT NULL,
+            `payment_id` int(255) NOT NULL,
+            `roll` int(255) NOT NULL,
+            `amount` float NOT NULL,
+            `roomno` text NOT NULL,
+            `status` text NOT NULL DEFAULT 'Unpaid'
+          )";
+
+        $rollNo = $_POST['roll'];
+        $appliedRoom = "INSERT INTO `applied_rooms` (`roll_no`, `room_table_name`, `room_no`) VALUES($rollNo, '$tableName', '$roomno')";
+
+        if ($conn->query($sql) && $conn->query($sql2) && $conn->query($sql3) && $conn->query($appliedRoom) && $conn->query($createTable)) {
+            // $_SESSION['booked'] = 1;
+            for ($index = 1; $index <= $duration; $index++) {
+                $sqlQuery = "INSERT INTO `" . $tableName . "` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES($index, $index, $rollNo, 2000, '$roomno', 'Unpaid');";
+                $result22 = mysqli_query($conn, $sqlQuery);
+            }
             echo "<script>alert('Room Booked and is under review.');
-                        window.location = './roomdetails.php';
+                        window.location = './occrooms.php';
             </script>";
         }
     } else {
@@ -139,13 +159,18 @@ if (isset($_POST['rsubmit'])) {
                     </li>
 
                     <h2>Personal Info</h2>
-                    <li><label>Full Name <span class=" required">*</span></label><input type="text" name="field1"
+                    <li><label>Full Name <span class=" required">*</span></label><input type="text" name="firstname"
                             class="field-divided" placeholder="First" value="" />
-                        <input type="text" name="field2" class="field-divided" placeholder="Last" value="" />
+                        <input type="text" name="lastname" class="field-divided" placeholder="Last" value="" />
                     </li>
                     <li>
                         <label>Email <span class="required">*</span></label>
                         <input type="email" name="email" class="field-long" value="" />
+                    </li>
+
+                    <li>
+                        <label>Guardian Contact <span class="required">*</span></label>
+                        <input type="text" name="phone" class="field-long" required />
                     </li>
 
                     <li>

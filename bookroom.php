@@ -94,7 +94,7 @@ if (isset($_POST['rsubmit'])) {
         if ($conn->query($sql) && $conn->query($sql2) && $conn->query($sql3) && $conn->query($appliedRoom) && $conn->query($createTable)) {
             $_SESSION['booked'] = 1;
             for ($index = 1; $index <= $duration; $index++) {
-                $sqlQuery = "INSERT INTO `" . $tableName . "` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES($index, $index, $rollNo, 1000, '$roomno', 'Unpaid');";
+                $sqlQuery = "INSERT INTO `" . $tableName . "` (`id`, `payment_id`, `roll`, `amount`, `roomno`, `status`) VALUES($index, $index, $rollNo, 2000, '$roomno', 'Unpaid');";
                 $result22 = mysqli_query($conn, $sqlQuery);
             }
             echo "<script>alert('Room Booked and is under review.');
@@ -138,9 +138,9 @@ if (isset($_POST['rsubmit'])) {
                             foreach ($rooms as $rno):
                                 ?>
 
-                            <option value="<?php echo $rno['roomno']; ?>">
-                                <?php echo $rno['roomno']; ?>
-                            </option>
+                                <option value="<?php echo $rno['roomno']; ?>">
+                                    <?php echo $rno['roomno']; ?>
+                                </option>
 
                             <?php endforeach; ?>
 
@@ -160,9 +160,9 @@ if (isset($_POST['rsubmit'])) {
                             <?php for ($i = 1; $i <= 12; $i++):
                                 ?>
 
-                            <option value="<?php echo $i; ?>">
-                                <?php echo $i; ?>
-                            </option>
+                                <option value="<?php echo $i; ?>">
+                                    <?php echo $i; ?>
+                                </option>
 
                             <?php endfor; ?>
 
@@ -226,22 +226,22 @@ if (isset($_POST['rsubmit'])) {
 
     </div>
     <script>
-    const selection = document.getElementById("sel");
-    const noseat = document.getElementById("noseat");
+        const selection = document.getElementById("sel");
+        const noseat = document.getElementById("noseat");
 
-    selection.addEventListener('change', () => {
-        let roomno = selection.value;
-        console.log(roomno);
-        fetch("check.php?room=" + roomno).then(res => res.json()).then(data => {
-            console.log(data);
-            noseat.innerHTML = "Available seats " + data.data;
-            noseat.style.display = "block";
+        selection.addEventListener('change', () => {
+            let roomno = selection.value;
+            console.log(roomno);
+            fetch("check.php?room=" + roomno).then(res => res.json()).then(data => {
+                console.log(data);
+                noseat.innerHTML = "Available seats " + data.data;
+                noseat.style.display = "block";
 
-            if (data.data <= 0) {
-                document.getElementById("sbtn").setAttribute('disabled', 'true');
-            }
-        })
-    });
+                if (data.data <= 0) {
+                    document.getElementById("sbtn").setAttribute('disabled', 'true');
+                }
+            })
+        });
     </script>
 </body>
 

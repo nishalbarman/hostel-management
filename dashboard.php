@@ -2,10 +2,13 @@
 
 session_start();
 
-if (!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION['role'] === 'student')) {
-    header("location: ./login.php");
-    exit;
-}
+
+// if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION['role'] !== 'student') {
+//     header("location: ./login.php");
+//     exit;
+// }
+
+
 if (isset($_SESSION['firstname'])) {
     $firstname = $_SESSION['firstname'];
 } else {
